@@ -160,5 +160,41 @@ public class BaseDatos {
         }
 
     }
+    
+    public ArrayList <String> getTable(String consulta){
+        
+        ArrayList <String> tabla = new ArrayList<>();
+        StringBuilder stringBuffer =new StringBuilder("");
+        int n_columnas;
+        
+       try {
+            Statement stmt = conexion.createStatement();
+            ResultSet rs = stmt.executeQuery(consulta);
+            ResultSetMetaData metadatos = rs.getMetaData();
+
+            n_columnas = metadatos.getColumnCount();
+              
+            while (rs.next()){
+                
+                
+                for (int i=1; i <= n_columnas; i++){
+                    stringBuffer.append(" | ");
+                    stringBuffer.append(rs.getString());
+                }
+                
+                
+            }
+                
+            
+
+        } catch (SQLException ex) {
+
+            Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        
+        
+        return tabla;
+    }
 
 }

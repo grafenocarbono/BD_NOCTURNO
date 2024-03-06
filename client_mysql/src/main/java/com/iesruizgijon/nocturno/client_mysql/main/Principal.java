@@ -4,6 +4,9 @@
  */
 package com.iesruizgijon.nocturno.client_mysql.main;
 
+import com.iesruizgijon.nocturno.client_mysql.BaseDatos;
+import java.util.ArrayList;
+
 /**
  *
  * @author grafeno30
@@ -107,12 +110,18 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void limpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_limpiarMouseClicked
-       String consulta = entrada.getText();
-       salida.setText(consulta);
+       salida.setText("");
     }//GEN-LAST:event_limpiarMouseClicked
 
     private void boton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boton1MouseClicked
-        // TODO add your handling code here:
+  
+        String consulta = entrada.getText();
+        BaseDatos bd = new BaseDatos("classicmodels", "root", "123qweASD_");
+        bd.conecta();
+        ArrayList<String> table = bd.getTable(consulta);
+        bd.desconecta();
+        
+        
     }//GEN-LAST:event_boton1MouseClicked
 
     private void limpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarActionPerformed
