@@ -164,7 +164,7 @@ public class BaseDatos {
     public ArrayList <String> getTable(String consulta){
         
         ArrayList <String> tabla = new ArrayList<>();
-        StringBuilder stringBuffer =new StringBuilder("");
+        StringBuilder fila =null;
         int n_columnas;
         
        try {
@@ -175,25 +175,17 @@ public class BaseDatos {
             n_columnas = metadatos.getColumnCount();
               
             while (rs.next()){
-                
+                fila =new StringBuilder("");                
                 
                 for (int i=1; i <= n_columnas; i++){
-                    stringBuffer.append(" | ");
-                    stringBuffer.append(rs.getString());
+                  fila.append(rs.getString(i));
+                  fila.append(" | ");
                 }
-                
-                
+                tabla.add(fila.toString());
             }
-                
-            
-
         } catch (SQLException ex) {
-
             Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
-
         }
-        
-        
         return tabla;
     }
 

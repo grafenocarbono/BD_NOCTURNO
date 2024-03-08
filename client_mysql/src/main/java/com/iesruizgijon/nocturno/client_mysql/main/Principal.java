@@ -119,6 +119,10 @@ public class Principal extends javax.swing.JFrame {
         BaseDatos bd = new BaseDatos("classicmodels", "root", "123qweASD_");
         bd.conecta();
         ArrayList<String> table = bd.getTable(consulta);
+        
+        for (String string : table) {
+            salida.setText(salida.getText() + "\n" + string);
+        }
         bd.desconecta();
         
         
