@@ -6,6 +6,7 @@ package com.iesruizgijon.nocturno.client_mysql.main;
 
 import com.iesruizgijon.nocturno.client_mysql.BaseDatos;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -115,14 +116,35 @@ public class Principal extends javax.swing.JFrame {
 
     private void boton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boton1MouseClicked
   
-        String consulta = entrada.getText();
-        BaseDatos bd = new BaseDatos("classicmodels", "root", "123qweASD_");
-        bd.conecta();
-        ArrayList<String> table = bd.getTable(consulta);
+       ArrayList<String> tabla =null;
         
-        for (String string : table) {
-            salida.setText(salida.getText() + "\n" + string);
+        BaseDatos bd = new BaseDatos("northwind","root", "123qweASD_");
+        
+        boolean conexion_correcta = bd.conecta();
+        
+        if (conexion_correcta){
+            
+            JOptionPane.showMessageDialog(null, "Conexión establecida");
+            
+              
+            
+        }else
+        {
+            JOptionPane.showMessageDialog(null, "Problemas en la conexión");
         }
+                
+       
+        tabla =bd.getQuery(entrada.getText());
+        
+        String contenido = "";
+        
+        for (String elemento : tabla) {
+            
+            contenido = contenido + elemento + "\n";
+        }
+        
+        salida.setText(contenido);
+        
         bd.desconecta();
         
         

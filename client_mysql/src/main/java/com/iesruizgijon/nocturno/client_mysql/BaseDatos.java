@@ -33,13 +33,19 @@ public class BaseDatos {
         this.pass = pass;
     }
 
-    public void conecta() {
+    public boolean conecta() {
+        
+        boolean conexion_correcta= false;
+        
+        
         try {
             conexion = DriverManager.getConnection(URL + nameDB, user, pass);
-            System.out.println("Conexión establecida con éxito...");
+            conexion_correcta = true;
         } catch (SQLException ex) {
             Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        return conexion_correcta;
     }
 
     public void desconecta() {
@@ -161,32 +167,35 @@ public class BaseDatos {
 
     }
     
-    public ArrayList <String> getTable(String consulta){
+     public ArrayList<String> getQuery(String consulta){
         
-        ArrayList <String> tabla = new ArrayList<>();
-        StringBuilder fila =null;
-        int n_columnas;
+        ArrayList<String> tabla = new ArrayList<>();
+        String fila = new String();
         
-       try {
-            Statement stmt = conexion.createStatement();
-            ResultSet rs = stmt.executeQuery(consulta);
-            ResultSetMetaData metadatos = rs.getMetaData();
-
-            n_columnas = metadatos.getColumnCount();
-              
-            while (rs.next()){
-                fila =new StringBuilder("");                
-                
-                for (int i=1; i <= n_columnas; i++){
-                  fila.append(rs.getString(i));
-                  fila.append(" | ");
+        
+        try {
+            Statement sentencia = conexion.createStatement();
+            ResultSet resultado = sentencia.executeQuery(consulta);
+            ResultSetMetaData rsmd = resultado.getMetaData();
+            int numeroColumnas = rsmd.getColumnCount();
+            
+            while (resultado.next()) {
+                for (int i = 0; i <numeroColumnas;i++){
+                    fila = fila + " | " + resultado.getString(i+1);
                 }
-                tabla.add(fila.toString());
+               tabla.add(fila);
+               fila = new String();
+
             }
+            
+            resultado.close();
+            sentencia.close();
+
         } catch (SQLException ex) {
             Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
         }
         return tabla;
     }
+    
 
 }
